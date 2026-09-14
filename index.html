@@ -28,7 +28,6 @@
       position: relative;
     }
 
-    /* BANNER FLOTANTE PROMO */
     .promo-banner {
       position: fixed;
       top: 15px;
@@ -170,7 +169,6 @@
       border: 2px solid #4a2511;
     }
 
-    /* TARJETAS DE PRODUCTOS INTERACTIVAS */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -344,7 +342,6 @@
       color: #fffcf7;
     }
 
-    /* ESTILOS DEL MODAL DE CONTACTO */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -402,7 +399,6 @@
       background: #7a3e1d;
     }
 
-    /* ANIMACIONES DE CAÍDA Y CLIC */
     .animated-item {
       position: fixed;
       top: -50px;
@@ -447,7 +443,6 @@
       }
     }
 
-    /* REGISTRO Y ADAPTACIÓN PARA DISPOSITIVOS MÓVILES */
     @media (max-width: 768px) {
       body {
         padding: 0.5rem;
@@ -511,7 +506,6 @@
 </head>
 <body onclick="spawnParticle(event)">
 
-  <!-- BANNER FLOTANTE RECOMENDACIÓN -->
   <div class="promo-banner">
     <span>🔥 Recomendado:</span> Waffle con Helado y Frutas
   </div>
@@ -525,7 +519,6 @@
       <button class="btn-sweet" onclick="handleWelcomeClick('options-screen')">Click para continuar</button>
     </div>
 
-    <!-- PANTALLA DE OPCIONES -->
     <div id="options-screen" class="hidden">
       <div class="logo-container">
         <img src="Logo.png" alt="Logo Sweetsummer" class="brand-logo">
@@ -538,7 +531,6 @@
       </div>
     </div>
 
-    <!-- PANTALLA DE MENÚ -->
     <div id="menu-screen" class="hidden">
       <div class="content-box">
         <h2>Nuestro Menú</h2>
@@ -548,7 +540,6 @@
       </div>
     </div>
 
-    <!-- PANTALLA DE PEDIDOS -->
     <div id="orders-screen" class="hidden">
       <div class="content-box">
         <h2>Arma tu Pedido Personalizado</h2>
@@ -648,7 +639,6 @@
               </div>
             </div>
 
-            <!-- RESUMEN DE LA ORDEN -->
             <div class="order-summary-box">
               <div>
                 <div class="section-title">Resumen del Pedido</div>
@@ -685,17 +675,16 @@
 
   </div>
 
-  <!-- MODAL DE CONTACTO AMPLIADO -->
   <div id="contact-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <h2>Contáctanos</h2>
       <p style="color: #4a2511; margin-bottom: 0.8rem; font-size: 0.95rem;">Selecciona una opción de contacto:</p>
       
-      <button class="contact-card-btn" onclick="openContactWhatsApp('573000000000', 'Miguel González')">
+      <button class="contact-card-btn" onclick="openContactWhatsApp('573136965923', 'Miguel González')">
         💬 Miguel González
       </button>
 
-      <button class="contact-card-btn" onclick="openContactWhatsApp('573111111111', 'Juan Díaz')">
+      <button class="contact-card-btn" onclick="openContactWhatsApp('573212731641', 'Juan Díaz')">
         💬 Juan Díaz
       </button>
 
@@ -708,7 +697,6 @@
   </div>
 
   <script>
-    // AUDIO INTERACTIVO (WEB AUDIO API)
     function playClickSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
