@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweetsummer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      background-color: #fcf8f2; 
+      background-image: url("Chocolate.png.webp");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* BANNER FLOTANTE PROMO */
+    .promo-banner {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #4a2511;
+      color: #fffcf7;
+      padding: 0.8rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 2px solid #e6a756;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-8px); }
+      60% { transform: translateY(-4px); }
+    }
+
+    .container {
+      background: transparent;
+      padding: 1rem;
+      text-align: center;
+      max-width: 95%;
+      width: 900px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem auto;
+      width: 100%;
+    }
+
+    .brand-logo {
+      max-width: 150px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    h1 {
+      color: #4a2511;
+      font-size: 3.2rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      font-weight: 800;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    h2 {
+      color: #4a2511;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    .btn-sweet {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #4a2511;
+      font-size: 1.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 10px 25px;
+      transition: all 0.3s ease;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    .btn-sweet:hover {
+      color: #7a3e1d;
+      transform: scale(1.1);
+      text-decoration-color: #7a3e1d;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px solid #4a2511;
+      color: #4a2511;
+      padding: 1.2rem;
+      border-radius: 16px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(74, 37, 17, 0.08);
+      width: 100%;
+    }
+
+    .option-btn:hover {
+      background: #4a2511;
+      color: #fffcf7;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(74, 37, 17, 0.2);
+    }
+
+    .content-box {
+      margin-top: 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(74, 37, 17, 0.15);
+      border: 2px solid #4a2511;
+    }
+
+    .menu-img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 12px;
+      border: 2px solid #4a2511;
+    }
+
+    /* TARJETAS DE PRODUCTOS INTERACTIVAS */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .product-card {
+      background: #fffcf7;
+      border: 2px solid #4a2511;
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(74, 37, 17, 0.15);
+    }
+
+    .product-card h3 {
+      font-size: 1.1rem;
+      color: #4a2511;
+      margin-bottom: 0.3rem;
+    }
+
+    .product-card p {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-card .price {
+      font-weight: 800;
+      color: #4a2511;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #4a2511;
+      border-bottom: 2px solid #4a2511;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .form-group-sm {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .form-group-sm label {
+      color: #4a2511;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .form-group-sm input, 
+    .form-group-sm select {
+      padding: 0.6rem;
+      border: 1.5px solid #4a2511;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      background: #fffcf7;
+      color: #4a2511;
+      width: 100%;
+    }
+
+    .order-summary-box {
+      background: #fff8ef;
+      border: 2px solid #4a2511;
+      border-radius: 14px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      color: #4a2511;
+    }
+
+    .summary-details {
+      font-size: 0.8rem;
+      color: #7a3e1d;
+      margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.6);
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+
+    .summary-total {
+      font-size: 1.2rem;
+      font-weight: 800;
+      border-top: 1.5px dashed #4a2511;
+      padding-top: 0.8rem;
+      margin-top: 0.8rem;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .whatsapp-btn {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 0.9rem 1rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .whatsapp-btn:hover {
+      background: #1eb856;
+    }
+
+    .back-btn {
+      margin-top: 1rem;
+      background: transparent;
+      border: 2px solid #4a2511;
+      color: #4a2511;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #4a2511;
+      color: #fffcf7;
+    }
+
+    /* ESTILOS DEL MODAL DE CONTACTO */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+
+    .modal-content {
+      background: #fffcf7;
+      border: 2px solid #4a2511;
+      border-radius: 20px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .contact-card-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      margin: 0.6rem 0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .contact-card-btn:hover {
+      background: #1eb856;
+      transform: translateY(-2px);
+    }
+
+    .social-btn {
+      background: #4a2511;
+      color: white;
+    }
+
+    .social-btn:hover {
+      background: #7a3e1d;
+    }
+
+    /* ANIMACIONES DE CAÍDA Y CLIC */
+    .animated-item {
+      position: fixed;
+      top: -50px;
+      z-index: 9999;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    .click-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      animation: floatUp 1s ease-out forwards;
+    }
+
+    .chocolate-drop {
+      background-color: #3d1c06;
+      border-radius: 0 50% 50% 50%;
+      transform: rotate(45deg);
+      box-shadow: inset -2px -2px 4px rgba(0,0,0,0.5);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -100px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* REGISTRO Y ADAPTACIÓN PARA DISPOSITIVOS MÓVILES */
+    @media (max-width: 768px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .container {
+        padding: 0.5rem;
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      .btn-sweet {
+        font-size: 1.4rem;
+        padding: 8px 15px;
+      }
+
+      .option-btn {
+        font-size: 1.1rem;
+        padding: 1rem;
+      }
+
+      .content-box {
+        padding: 1rem;
+        border-radius: 15px;
+      }
+
+      .checkout-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .promo-banner {
+        top: auto;
+        bottom: 15px;
+        right: 50%;
+        transform: translateX(50%);
+        font-size: 0.8rem;
+        padding: 0.6rem 1rem;
+        white-space: nowrap;
+      }
+
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(50%) translateY(0); }
+        40% { transform: translateX(50%) translateY(-6px); }
+        60% { transform: translateX(50%) translateY(-3px); }
+      }
+    }
+  </style>
+</head>
+<body onclick="spawnParticle(event)">
+
+  <!-- BANNER FLOTANTE RECOMENDACIÓN -->
+  <div class="promo-banner">
+    <span>🔥 Recomendado:</span> Waffle con Helado y Frutas
+  </div>
+
+  <div class="container">
+    <div id="welcome-screen">
+      <h1>Bienvenidos a <br>sweetsummer</h1>
+      <div class="logo-container">
+        <img src="Logo.png" alt="Logo Sweetsummer" class="brand-logo">
+      </div>
+      <button class="btn-sweet" onclick="handleWelcomeClick('options-screen')">Click para continuar</button>
+    </div>
+
+    <!-- PANTALLA DE OPCIONES -->
+    <div id="options-screen" class="hidden">
+      <div class="logo-container">
+        <img src="Logo.png" alt="Logo Sweetsummer" class="brand-logo">
+      </div>
+      <h2>SweetSummer</h2>
+      <div class="options-container">
+        <button class="option-btn" onclick="handleOptionClick('menu-screen')">Menú</button>
+        <button class="option-btn" onclick="handleOptionClick('orders-screen')">Encargos / Realizar Pedido</button>
+        <button class="option-btn" onclick="handleOptionClick('contacto')">Contacto</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA DE MENÚ -->
+    <div id="menu-screen" class="hidden">
+      <div class="content-box">
+        <h2>Nuestro Menú</h2>
+        <img src="Menu.png.png" alt="Menú Sweetsummer" class="menu-img">
+        <br>
+        <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA DE PEDIDOS -->
+    <div id="orders-screen" class="hidden">
+      <div class="content-box">
+        <h2>Arma tu Pedido Personalizado</h2>
+        
+        <div id="checkout-form">
+          <input type="hidden" id="hidden-product-name" value="Waffle con Helado (x1)">
+          <input type="hidden" id="hidden-extra-name" value="Ninguno">
+          <input type="hidden" id="hidden-total" value="$8.000 COP">
+
+          <!-- CATÁLOGO VISUAL DE PRODUCTOS -->
+          <div class="section-title">1. Selecciona tu combinación preferida</div>
+          <div class="products-grid">
+            <div class="product-card">
+              <div>
+                <h3>🧇 Waffle con Helado</h3>
+                <p>Masa crujiente recién horneada + 1 bola de helado a tu elección.</p>
+              </div>
+              <div>
+                <div class="price">$8.000 COP</div>
+                <button type="button" class="back-btn" style="width:100%; margin:0; padding:0.4rem;" onclick="selectCardProduct('8000', 'Waffle con Helado')">Seleccionar</button>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <div>
+                <h3>🍓 Waffle con Crema y Fruta</h3>
+                <p>Masa especial acompañada de fresas, banano y crema batida.</p>
+              </div>
+              <div>
+                <div class="price">$9.000 COP</div>
+                <button type="button" class="back-btn" style="width:100%; margin:0; padding:0.4rem;" onclick="selectCardProduct('9000', 'Waffle con Crema y Fruta')">Seleccionar</button>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <div>
+                <h3>🍨 Waffle Helado y Frutas</h3>
+                <p>La combinación completa: helado premium, frutas y aderezos.</p>
+              </div>
+              <div>
+                <div class="price">$12.000 COP</div>
+                <button type="button" class="back-btn" style="width:100%; margin:0; padding:0.4rem;" onclick="selectCardProduct('12000', 'Waffle con Helado y Frutas')">Seleccionar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout-layout">
+            <div>
+              <div class="section-title">2. Personaliza los Detalles</div>
+              
+              <div class="form-group-sm">
+                <label for="product-select">Producto Base:</label>
+                <select id="product-select" onchange="updateSummary()" required>
+                  <option value="8000" data-name="Waffle con Helado">Waffle con Helado - $8.000</option>
+                  <option value="9000" data-name="Waffle con Crema y Fruta">Waffle con Crema y Fruta - $9.000</option>
+                  <option value="12000" data-name="Waffle con Helado y Frutas">Waffle con Helado y Frutas - $12.000</option>
+                </select>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group-sm">
+                  <label for="flavor-ice">Sabor de Helado:</label>
+                  <select id="flavor-ice" onchange="updateSummary()">
+                    <option value="Vainilla">Vainilla</option>
+                    <option value="Chocolate">Chocolate</option>
+                    <option value="Fresa">Fresa</option>
+                    <option value="Vainilla y Chocolate">Mixto</option>
+                  </select>
+                </div>
+
+                <div class="form-group-sm">
+                  <label for="flavor-sauce">Salsa Especial:</label>
+                  <select id="flavor-sauce" onchange="updateSummary()">
+                    <option value="Chocolate Nutella">Chocolate / Nutella</option>
+                    <option value="Arequipe">Arequipe</option>
+                    <option value="Salsa de Mora">Salsa de Mora</option>
+                    <option value="Leche Condensada">Leche Condensada</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group-sm">
+                  <label for="product-qty">Cantidad:</label>
+                  <input type="number" id="product-qty" value="1" min="1" onchange="updateSummary()" required>
+                </div>
+                <div class="form-group-sm">
+                  <label for="extra-select">Añadir Extra:</label>
+                  <select id="extra-select" onchange="updateSummary()">
+                    <option value="0" data-name="Ninguno">Ninguno</option>
+                    <option value="2000" data-name="Extra Helado">Extra Helado (+$2.000)</option>
+                    <option value="2000" data-name="Extra Fruta">Extra Fruta (+$2.000)</option>
+                    <option value="1500" data-name="Extra Crema">Extra Crema (+$1.500)</option>
+                    <option value="1000" data-name="Extra Salsa">Extra Salsa (+$1.000)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- RESUMEN DE LA ORDEN -->
+            <div class="order-summary-box">
+              <div>
+                <div class="section-title">Resumen del Pedido</div>
+                <div class="summary-row">
+                  <span>Producto:</span>
+                  <span id="sum-product">$8.000</span>
+                </div>
+                <div class="summary-row">
+                  <span>Extras:</span>
+                  <span id="sum-extra">$0</span>
+                </div>
+
+                <div class="summary-details" id="summary-details-text">
+                  Detalles: Helado de Vainilla, Salsa de Chocolate Nutella.
+                </div>
+
+                <div class="summary-row summary-total">
+                  <span>TOTAL:</span>
+                  <span id="sum-total">$8.000 COP</span>
+                </div>
+              </div>
+
+              <div class="btn-container">
+                <button type="button" class="whatsapp-btn" onclick="sendToWhatsApp()">💬 Pedir por WhatsApp</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL DE CONTACTO AMPLIADO -->
+  <div id="contact-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h2>Contáctanos</h2>
+      <p style="color: #4a2511; margin-bottom: 0.8rem; font-size: 0.95rem;">Selecciona una opción de contacto:</p>
+      
+      <button class="contact-card-btn" onclick="openContactWhatsApp('573000000000', 'Miguel González')">
+        💬 Miguel González
+      </button>
+
+      <button class="contact-card-btn" onclick="openContactWhatsApp('573111111111', 'Juan Díaz')">
+        💬 Juan Díaz
+      </button>
+
+      <a href="https://instagram.com" target="_blank" class="contact-card-btn social-btn">
+        📸 Instagram Oficial
+      </a>
+
+      <button class="back-btn" style="margin-top: 1rem; width: 100%;" onclick="closeContactModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    // AUDIO INTERACTIVO (WEB AUDIO API)
+    function playClickSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      } catch(e) { }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', playClickSound);
+      });
+    });
+
+    function showScreen(screenId) {
+      const screens = ['welcome-screen', 'options-screen', 'menu-screen', 'orders-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    function openContactModal() {
+      document.getElementById('contact-modal').classList.remove('hidden');
+    }
+
+    function closeContactModal() {
+      document.getElementById('contact-modal').classList.add('hidden');
+    }
+
+    function openContactWhatsApp(phone, name) {
+      const message = encodeURIComponent(`¡Hola ${name}! Tengo una consulta sobre Sweetsummer.`);
+      window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    }
+
+    function selectCardProduct(price, name) {
+      const select = document.getElementById('product-select');
+      select.value = price;
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const productSelect = document.getElementById('product-select');
+      const basePrice = parseInt(productSelect.value);
+      const productName = productSelect.options[productSelect.selectedIndex].getAttribute('data-name');
+      
+      const qty = parseInt(document.getElementById('product-qty').value) || 1;
+      
+      const extraSelect = document.getElementById('extra-select');
+      const extraPrice = parseInt(extraSelect.value);
+      const extraName = extraSelect.options[extraSelect.selectedIndex].getAttribute('data-name');
+
+      const iceFlavor = document.getElementById('flavor-ice').value;
+      const sauceFlavor = document.getElementById('flavor-sauce').value;
+
+      const subtotalProduct = basePrice * qty;
+      const totalExtra = extraPrice * qty;
+      const total = subtotalProduct + totalExtra;
+
+      const totalFormatted = '$' + total.toLocaleString('es-CO') + ' COP';
+
+      document.getElementById('sum-product').innerText = '$' + subtotalProduct.toLocaleString('es-CO');
+      document.getElementById('sum-extra').innerText = '$' + totalExtra.toLocaleString('es-CO');
+      document.getElementById('sum-total').innerText = totalFormatted;
+      
+      document.getElementById('summary-details-text').innerText = `Detalles: Helado de ${iceFlavor}, Salsa de ${sauceFlavor}.`;
+
+      document.getElementById('hidden-product-name').value = `${productName} (x${qty}) [Helado: ${iceFlavor}, Salsa: ${sauceFlavor}]`;
+      document.getElementById('hidden-extra-name').value = extraName;
+      document.getElementById('hidden-total').value = totalFormatted;
+    }
+
+    function sendToWhatsApp() {
+      const phoneNumber = "573019271033";
+      
+      const product = document.getElementById('hidden-product-name').value;
+      const extra = document.getElementById('hidden-extra-name').value;
+      const total = document.getElementById('hidden-total').value;
+
+      const message = `*¡NUEVO PEDIDO SWEETSUMMER!*%0A%0A` +
+        `*Detalles del Producto:* ${product}%0A` +
+        `*Extra:* ${extra}%0A` +
+        `*Total a Pagar:* ${total}`;
+
+      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    }
+
+    function spawnParticle(e) {
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+      
+      const particle = document.createElement('div');
+      particle.classList.add('click-particle');
+      particle.innerText = Math.random() > 0.5 ? '🧇' : '🍫';
+      particle.style.left = `${e.clientX}px`;
+      particle.style.top = `${e.clientY}px`;
+      particle.style.fontSize = '24px';
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => {
+        particle.remove();
+      }, 1000);
+    }
+
+    function handleWelcomeClick(nextScreen) {
+      createRainEffect('chocolate', 25);
+      showScreen(nextScreen);
+    }
+
+    function handleOptionClick(target) {
+      createRainEffect('waffle', 25);
+      if (target === 'contacto') {
+        openContactModal();
+      } else {
+        showScreen(target);
+      }
+    }
+
+    function createRainEffect(type, count) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const item = document.createElement('div');
+          item.classList.add('animated-item');
+          
+          if (type === 'chocolate') {
+            item.classList.add('chocolate-drop');
+            const size = Math.random() * 15 + 10;
+            item.style.width = `${size}px`;
+            item.style.height = `${size}px`;
+          } else if (type === 'waffle') {
+            item.innerText = '🧇';
+            item.style.fontSize = `${Math.random() * 20 + 20}px`;
+          }
+
+          item.style.left = `${Math.random() * 100}vw`;
+          const duration = Math.random() * 1.5 + 1.5;
+          item.style.animationDuration = `${duration}s`;
+
+          document.body.appendChild(item);
+
+          setTimeout(() => {
+            item.remove();
+          }, duration * 1000);
+        }, i * 60);
+      }
+    }
+  </script>
+
+</body>
+</html>
