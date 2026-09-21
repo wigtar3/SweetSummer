@@ -132,7 +132,7 @@
     }
 
     .option-btn {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       border: 2px solid #4a2511;
       color: #4a2511;
       padding: 1.2rem;
@@ -141,7 +141,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(74, 37, 17, 0.08);
+      box-shadow: 0 8px 20px rgba(74, 37, 17, 0.15);
       width: 100%;
     }
 
@@ -149,15 +149,15 @@
       background: #4a2511;
       color: #fffcf7;
       transform: translateY(-3px);
-      box-shadow: 0 12px 25px rgba(74, 37, 17, 0.2);
+      box-shadow: 0 12px 25px rgba(74, 37, 17, 0.3);
     }
 
     .content-box {
       margin-top: 1rem;
       background: rgba(255, 255, 255, 0.95);
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(74, 37, 17, 0.15);
+      box-shadow: 0 10px 30px rgba(74, 37, 17, 0.2);
       border: 2px solid #4a2511;
     }
 
@@ -516,7 +516,14 @@
       <div class="logo-container">
         <img src="Logo.png" alt="Logo Sweetsummer" class="brand-logo">
       </div>
-      <button class="btn-sweet" onclick="handleWelcomeClick('options-screen')">Click para continuar</button>
+      
+      <button id="initial-continue-btn" class="btn-sweet" onclick="showWelcomeSubMenu()">Click para continuar</button>
+
+      <div id="welcome-submenu" class="options-container hidden" style="margin-top: 1.5rem;">
+        <button class="option-btn" onclick="handleOptionClick('options-screen')">🍰 Ir al Menú y Pedidos</button>
+        <button class="option-btn" onclick="handleOptionClick('info-screen')">ℹ️ Información sobre el emprendimiento / empresa</button>
+        <button class="option-btn" onclick="handleOptionClick('game-screen')">🎮 Juega x descuento</button>
+      </div>
     </div>
 
     <div id="options-screen" class="hidden">
@@ -529,6 +536,30 @@
         <button class="option-btn" onclick="handleOptionClick('orders-screen')">Encargos / Realizar Pedido</button>
         <button class="option-btn" onclick="handleOptionClick('contacto')">Contacto</button>
       </div>
+      <button class="back-btn" style="margin-top: 1.5rem;" onclick="resetWelcomeScreen()">Volver al Inicio</button>
+    </div>
+
+    <div id="info-screen" class="hidden">
+      <div class="content-box">
+        <h2>Nuestra Historia</h2>
+        <p style="color: #4a2511; line-height: 1.6; font-size: 1.05rem; margin-bottom: 1rem;">
+          En <strong>Sweetsummer</strong> creamos experiencias dulces inolvidables. Nacimos con la pasión de ofrecer los mejores waffles, helados y toppings seleccionados con la más alta calidad y un toque artesanal.
+        </p>
+        <p style="color: #4a2511; line-height: 1.6; font-size: 1.05rem;">
+          Cada postre está preparado al momento para brindarte la máxima frescura y sabor único en cada bocado.
+        </p>
+        <button class="back-btn" onclick="showScreen('welcome-screen')">Volver</button>
+      </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+      <div class="content-box">
+        <h2>🎮 Juega x Descuento</h2>
+        <p style="color: #4a2511; font-size: 1.05rem; margin-bottom: 1rem;">
+          Próximamente disponible.
+        </p>
+        <button class="back-btn" onclick="showScreen('welcome-screen')">Volver</button>
+      </div>
     </div>
 
     <div id="menu-screen" class="hidden">
@@ -536,7 +567,7 @@
         <h2>Nuestro Menú</h2>
         <img src="Menu.png.png" alt="Menú Sweetsummer" class="menu-img">
         <br>
-        <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
+        <button class="back-btn" onclick="showScreen('options-screen')">Volver</button>
       </div>
     </div>
 
@@ -549,7 +580,6 @@
           <input type="hidden" id="hidden-extra-name" value="Ninguno">
           <input type="hidden" id="hidden-total" value="$8.000 COP">
 
-          <!-- CATÁLOGO VISUAL DE PRODUCTOS -->
           <div class="section-title">1. Selecciona tu combinación preferida</div>
           <div class="products-grid">
             <div class="product-card">
@@ -669,7 +699,7 @@
           </div>
         </div>
 
-        <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
+        <button class="back-btn" onclick="showScreen('options-screen')">Volver</button>
       </div>
     </div>
 
@@ -719,8 +749,20 @@
       });
     });
 
+    function showWelcomeSubMenu() {
+      createRainEffect('chocolate', 20);
+      document.getElementById('initial-continue-btn').classList.add('hidden');
+      document.getElementById('welcome-submenu').classList.remove('hidden');
+    }
+
+    function resetWelcomeScreen() {
+      document.getElementById('welcome-submenu').classList.add('hidden');
+      document.getElementById('initial-continue-btn').classList.remove('hidden');
+      showScreen('welcome-screen');
+    }
+
     function showScreen(screenId) {
-      const screens = ['welcome-screen', 'options-screen', 'menu-screen', 'orders-screen'];
+      const screens = ['welcome-screen', 'options-screen', 'menu-screen', 'orders-screen', 'info-screen', 'game-screen'];
       screens.forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });
@@ -762,7 +804,7 @@
 
       const subtotalProduct = basePrice * qty;
       const totalExtra = extraPrice * qty;
-      const total = subtotalProduct + totalExtra;
+      let total = subtotalProduct + totalExtra;
 
       const totalFormatted = '$' + total.toLocaleString('es-CO') + ' COP';
 
@@ -772,7 +814,9 @@
       
       document.getElementById('summary-details-text').innerText = `Detalles: Helado de ${iceFlavor}, Salsa de ${sauceFlavor}.`;
 
-      document.getElementById('hidden-product-name').value = `${productName} (x${qty}) [Helado: ${iceFlavor}, Salsa: ${sauceFlavor}]`;
+      let detailText = `${productName} (x${qty}) [Helado: ${iceFlavor}, Salsa: ${sauceFlavor}]`;
+
+      document.getElementById('hidden-product-name').value = detailText;
       document.getElementById('hidden-extra-name').value = extraName;
       document.getElementById('hidden-total').value = totalFormatted;
     }
@@ -807,11 +851,6 @@
       setTimeout(() => {
         particle.remove();
       }, 1000);
-    }
-
-    function handleWelcomeClick(nextScreen) {
-      createRainEffect('chocolate', 25);
-      showScreen(nextScreen);
     }
 
     function handleOptionClick(target) {
