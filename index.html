@@ -28,10 +28,11 @@
       position: relative;
     }
 
+    /* POSICIONADO A LA IZQUIERDA */
     .promo-banner {
       position: fixed;
       top: 15px;
-      right: 15px;
+      left: 15px;
       background: #4a2511;
       color: #fffcf7;
       padding: 0.8rem 1.2rem;
@@ -95,6 +96,7 @@
       margin-bottom: 1rem;
       font-weight: 700;
       text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+      text-align: center;
     }
 
     .btn-sweet {
@@ -159,6 +161,7 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(74, 37, 17, 0.2);
       border: 2px solid #4a2511;
+      text-align: left;
     }
 
     .menu-img {
@@ -167,6 +170,159 @@
       height: auto;
       border-radius: 12px;
       border: 2px solid #4a2511;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* CARRUSEL DE IMÁGENES AMPLIADO CON PANTALLA COMPLETA */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 860px;
+      margin: 1.2rem auto;
+      background: #fff8ef;
+      border: 2px solid #4a2511;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(74, 37, 17, 0.15);
+    }
+
+    .carousel-slide {
+      display: none;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      background: #fdf5e6;
+      cursor: pointer;
+    }
+
+    .carousel-slide.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.2s ease;
+    }
+
+    .carousel-slide:hover img {
+      transform: scale(1.01);
+    }
+
+    .fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(74, 37, 17, 0.85);
+      color: #fffcf7;
+      border: 1px solid #e6a756;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.2s ease;
+    }
+
+    .fullscreen-btn:hover {
+      background: #4a2511;
+      transform: scale(1.05);
+    }
+
+    .slot-placeholder {
+      color: #7a3e1d;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .carousel-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: #fffcf7;
+      border-top: 2px solid #4a2511;
+    }
+
+    .nav-btn {
+      background: #4a2511;
+      color: #fffcf7;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: #7a3e1d;
+      transform: scale(1.05);
+    }
+
+    .slide-counter {
+      color: #4a2511;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    /* MODAL PANTALLA COMPLETA */
+    .fullscreen-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 20000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .fullscreen-modal img {
+      max-width: 95vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .fullscreen-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #4a2511;
+      color: #fffcf7;
+      border: 2px solid #e6a756;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 20001;
+    }
+
+    .fullscreen-controls {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 1rem;
     }
 
     .products-grid {
@@ -196,6 +352,7 @@
     .product-card h3 {
       font-size: 1.1rem;
       color: #4a2511;
+      margin-top: 0;
       margin-bottom: 0.3rem;
     }
 
@@ -335,6 +492,9 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .back-btn:hover {
@@ -472,8 +632,17 @@
       }
 
       .content-box {
-        padding: 1rem;
+        padding: 0.8rem;
         border-radius: 15px;
+      }
+
+      .carousel-container {
+        border-radius: 12px;
+      }
+
+      .fullscreen-btn {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
       }
 
       .checkout-layout {
@@ -489,17 +658,18 @@
       .promo-banner {
         top: auto;
         bottom: 15px;
-        right: 50%;
-        transform: translateX(50%);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
         font-size: 0.8rem;
         padding: 0.6rem 1rem;
         white-space: nowrap;
       }
 
       @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateX(50%) translateY(0); }
-        40% { transform: translateX(50%) translateY(-6px); }
-        60% { transform: translateX(50%) translateY(-3px); }
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-6px); }
+        60% { transform: translateX(-50%) translateY(-3px); }
       }
     }
   </style>
@@ -541,39 +711,97 @@
 
     <div id="info-screen" class="hidden">
       <div class="content-box">
-        <h2>Nuestra Historia</h2>
-        <p style="color: #4a2511; line-height: 1.6; font-size: 1.05rem; margin-bottom: 1rem;">
-          En <strong>Sweetsummer</strong> creamos experiencias dulces inolvidables. Nacimos con la pasión de ofrecer los mejores waffles, helados y toppings seleccionados con la más alta calidad y un toque artesanal.
+        <h2>Presentación de la Empresa</h2>
+        <p style="color: #4a2511; line-height: 1.6; font-size: 1.05rem; text-align: center; margin-bottom: 0.8rem;">
+          Explora las diapositivas de nuestra propuesta de negocio. Haz clic en la imagen o en el botón para verla en grande:
         </p>
-        <p style="color: #4a2511; line-height: 1.6; font-size: 1.05rem;">
-          Cada postre está preparado al momento para brindarte la máxima frescura y sabor único en cada bocado.
-        </p>
-        <button class="back-btn" onclick="showScreen('welcome-screen')">Volver</button>
+
+        <div class="carousel-container">
+          <button class="fullscreen-btn" onclick="openFullscreen()">🔍 Pantalla Completa</button>
+
+          <div class="carousel-slide active" onclick="openFullscreen()">
+            <img src="Pagina 1.png.png" alt="Presentación 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 1 (Portada Sweet Summer)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 2.png.png" alt="Presentación 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 2 (Roles del Equipo)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 3.png.png" alt="Presentación 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 3 (Justificación Ecológica)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 4.png.png" alt="Presentación 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 4 (Innovación y Experiencia)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 5.png.png" alt="Presentación 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 5 (Misión y Visión)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 6.png.png" alt="Presentación 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 6 (Propuesta de Valor)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 7.png.png" alt="Presentación 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 7 (Objetivos del Proyecto)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 9.png" alt="Presentación 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 8 (Estudio y Gráficas de Mercado)</div>
+          </div>
+          <div class="carousel-slide" onclick="openFullscreen()">
+            <img src="Pagina 8.png.png" alt="Presentación 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="slot-placeholder" style="display:none;">🖼️ Diapositiva 8 (Estudio y Gráficas de Mercado)</div>
+          </div> 
+
+          <div class="carousel-controls">
+            <button class="nav-btn" onclick="changeSlide(-1, event)">◀ Anterior</button>
+            <span class="slide-counter" id="slide-counter">1 / 8</span>
+            <button class="nav-btn" onclick="changeSlide(1, event)">Siguiente ▶</button>
+          </div>
+        </div>
+
+        <button class="back-btn" onclick="showScreen('welcome-screen')">Volver al Inicio</button>
+      </div>
+    </div>
+
+    <div id="fullscreen-modal" class="fullscreen-modal hidden">
+      <button class="fullscreen-close" onclick="closeFullscreen()">✕</button>
+      <div id="fullscreen-content" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+        <img id="fullscreen-img" src="" alt="Diapositiva en Grande">
+        <div id="fullscreen-placeholder" class="slot-placeholder" style="display:none; color: #fffcf7;"></div>
+      </div>
+      <div class="fullscreen-controls">
+        <button class="nav-btn" onclick="changeSlide(-1)">◀ Anterior</button>
+        <span class="slide-counter" id="fullscreen-counter" style="color: #fffcf7;">1 / 8</span>
+        <button class="nav-btn" onclick="changeSlide(1)">Siguiente ▶</button>
       </div>
     </div>
 
     <div id="game-screen" class="hidden">
       <div class="content-box">
-        <h2>🎮 Juega x Descuento</h2>
-        <p style="color: #4a2511; font-size: 1.05rem; margin-bottom: 1rem;">
+        <h2 style="text-align:center;">🎮 Juega x Descuento</h2>
+        <p style="color: #4a2511; font-size: 1.05rem; margin-bottom: 1rem; text-align:center;">
           Próximamente disponible.
         </p>
-        <button class="back-btn" onclick="showScreen('welcome-screen')">Volver</button>
+        <button class="back-btn" onclick="showScreen('welcome-screen')">Volver al Inicio</button>
       </div>
     </div>
 
     <div id="menu-screen" class="hidden">
       <div class="content-box">
-        <h2>Nuestro Menú</h2>
+        <h2 style="text-align:center;">Nuestro Menú</h2>
         <img src="Menu.png.png" alt="Menú Sweetsummer" class="menu-img">
         <br>
-        <button class="back-btn" onclick="showScreen('options-screen')">Volver</button>
+        <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
       </div>
     </div>
 
     <div id="orders-screen" class="hidden">
       <div class="content-box">
-        <h2>Arma tu Pedido Personalizado</h2>
+        <h2 style="text-align:center;">Arma tu Pedido Personalizado</h2>
         
         <div id="checkout-form">
           <input type="hidden" id="hidden-product-name" value="Waffle con Helado (x1)">
@@ -699,7 +927,7 @@
           </div>
         </div>
 
-        <button class="back-btn" onclick="showScreen('options-screen')">Volver</button>
+        <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
       </div>
     </div>
 
@@ -727,6 +955,68 @@
   </div>
 
   <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      
+      if (index >= totalSlides) {
+        currentSlide = 0;
+      } else if (index < 0) {
+        currentSlide = totalSlides - 1;
+      } else {
+        currentSlide = index;
+      }
+
+      slides[currentSlide].classList.add('active');
+      const counterText = `${currentSlide + 1} / ${totalSlides}`;
+      document.getElementById('slide-counter').innerText = counterText;
+      document.getElementById('fullscreen-counter').innerText = counterText;
+
+      updateFullscreenView();
+    }
+
+    function changeSlide(direction, event) {
+      if (event) event.stopPropagation();
+      showSlide(currentSlide + direction);
+    }
+
+    function openFullscreen() {
+      document.getElementById('fullscreen-modal').classList.remove('hidden');
+      updateFullscreenView();
+    }
+
+    function closeFullscreen() {
+      document.getElementById('fullscreen-modal').classList.add('hidden');
+    }
+
+    function updateFullscreenView() {
+      const activeSlide = slides[currentSlide];
+      const img = activeSlide.querySelector('img');
+      const placeholder = activeSlide.querySelector('.slot-placeholder');
+      
+      const fsImg = document.getElementById('fullscreen-img');
+      const fsPlaceholder = document.getElementById('fullscreen-placeholder');
+
+      if (img && img.style.display !== 'none' && img.complete && img.naturalWidth !== 0) {
+        fsImg.src = img.src;
+        fsImg.style.display = 'block';
+        fsPlaceholder.style.display = 'none';
+      } else {
+        fsImg.style.display = 'none';
+        fsPlaceholder.innerText = placeholder ? placeholder.innerText : `Diapositiva ${currentSlide + 1}`;
+        fsPlaceholder.style.display = 'block';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeFullscreen();
+      }
+    });
+
     function playClickSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
