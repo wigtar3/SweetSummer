@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sweetsummer - 5 Seconds Shield Edition</title>
+  <title>Sweetsummer - Epic Free Waffle Edition</title>
   <style>
     * {
       box-sizing: border-box;
@@ -322,6 +322,7 @@
       margin-bottom: 1rem;
     }
 
+    /* ESTILOS DEL MINIJUEGO Y FORMULARIO DE JUGADOR */
     .game-wrapper {
       display: flex;
       flex-direction: column;
@@ -420,6 +421,7 @@
       }
     }
 
+    /* ESTILOS DE LA TIENDA DE RECOMPENSAS */
     .shop-coins-header {
       background: #4a2511;
       color: #fffcf7;
@@ -877,12 +879,12 @@
       <button class="back-btn" style="margin-top: 1.5rem;" onclick="resetWelcomeScreen()">Volver al Inicio</button>
     </div>
 
-    <!-- SECCIÓN TIENDA DE RECOMPENSAS (150 A 300) -->
+    <!-- SECCIÓN TIENDA DE RECOMPENSAS (CON WAFFLE GRATIS POR 750 MONEDAS) -->
     <div id="shop-screen" class="hidden">
       <div class="content-box">
         <h2 style="text-align:center;">🛍️ Tienda de Recompensas</h2>
         <p style="color: #4a2511; text-align: center; margin-bottom: 1rem; font-size: 0.95rem;">
-          ¡Canjea tus monedas recolectadas por premios y descuentos entre 150 y 300 monedas!
+          ¡Canjea tus monedas recolectadas por increíbles premios y waffles gratis!
         </p>
 
         <div class="shop-coins-header">
@@ -924,12 +926,21 @@
             <button class="redeem-btn" onclick="redeemReward('2x1 Waffle con Helado', 300)">Canjear Recompensa</button>
           </div>
 
+          <div class="reward-card" style="border: 2.5px solid #d4af37; background: #fffdf0;">
+            <span class="reward-tag" style="background: #d4af37; color: #fff;">Gran Premio Épico</span>
+            <h3>🧇 Waffle Totalmente Gratis</h3>
+            <p style="font-size: 0.85rem; color: #666;">¡Lleva un Waffle con Helado o Frutas totalmente gratis en tu orden!</p>
+            <div class="reward-price" style="color: #b78103;">🪙 750 Monedas</div>
+            <button class="redeem-btn" style="background: #d4af37;" onclick="redeemReward('Waffle Totalmente Gratis', 750)">Canjear Recompensa</button>
+          </div>
+
         </div>
 
         <button class="back-btn" onclick="showScreen('options-screen')">Volver a Opciones</button>
       </div>
     </div>
 
+    <!-- PANTALLA DE REGISTRO DE NOMBRE DE JUGADOR -->
     <div id="player-name-screen" class="hidden">
       <div class="content-box" style="max-width: 450px; margin: 0 auto; text-align: center;">
         <h2>🎮 Registro de Jugador</h2>
@@ -1023,7 +1034,7 @@
       <div class="content-box" style="display: flex; flex-direction: column; align-items: center;">
         <h2 style="margin-bottom: 0.3rem;">🎮 Waffle Personificado ULTRA HD: <span id="hud-player-name">Jugador</span></h2>
         <p style="color: #4a2511; font-size: 0.95rem; margin-bottom: 0.8rem; text-align:center;">
-          ¡Atrapa las <span style="color: #ff3366; font-weight:800;">Fresas Raras 🍓</span> (¡Escudo de 5 segundos!) y evita los obstáculos!
+          ¡Atrapa las <span style="color: #ff3366; font-weight:800;">Fresas Raras 🍓</span> (Escudo de 5s cada 6s) y esquiva los obstáculos!
         </p>
 
         <div class="game-wrapper">
@@ -1031,12 +1042,12 @@
           
           <div class="game-ui-overlay">
             <div>Vidas: <span id="game-lives">❤️❤️</span></div>
-            <div>Escudo Raro (5s): <span id="game-shield">❌</span></div>
+            <div>Escudo (5s): <span id="game-shield">❌</span></div>
             <div>Monedas: <span id="game-coins">0</span></div>
           </div>
 
           <div id="game-menu" class="game-menu-overlay">
-            <h3 id="game-menu-title">¡ESCUDO DE 5 SEGUNDOS!</h3>
+            <h3 id="game-menu-title">¡MODO RETO MÁXIMO!</h3>
             <p id="game-menu-desc">Haz clic abajo para iniciar con audio a volumen máximo.</p>
             <button class="option-btn" style="max-width: 220px; padding: 0.85rem; font-size: 1.15rem;" onclick="startRunnerGame()">🚀 INICIAR PARTIDA</button>
           </div>
@@ -1567,6 +1578,7 @@
       window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
     }
 
+    /* --- LÓGICA DEL JUEGO: MÁS OBSTÁCULOS Y ESCUDO CADA 6 SEGUNDOS (5s DE INMUNIDAD) --- */
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
@@ -1577,10 +1589,11 @@
     let score = 0;
     let coins = 0;
     let lives = 2; 
-    let shieldTimer = 0; 
+    let shieldTimer = 0; // 5 segundos = 300 frames a 60fps
     let baseSpeed = 3.2;   
     let currentSpeed = 3.2;
     let spawnCounter = 0;
+    let strawberrySpawnTimer = 0; // Temporizador para asegurar aparición cada 6 segundos (aprox 360 frames)
     let roadOffset = 0;
     let nextSpeedLevel = 1000;
 
@@ -1661,6 +1674,7 @@
       player.targetX = lanes[1];
       player.invulnerableTimer = 0;
       spawnCounter = 0;
+      strawberrySpawnTimer = 0;
       roadOffset = 0;
 
       document.getElementById("game-lives").innerText = "❤️❤️";
@@ -1729,12 +1743,15 @@
 
     function spawnGameElements() {
       spawnCounter++;
-      if (spawnCounter % 50 === 0) {
+      strawberrySpawnTimer++;
+
+      // Frecuencia de obstáculos aumentada para mayor desafío
+      if (spawnCounter % 38 === 0) {
         const lane = Math.floor(Math.random() * 3);
         const randType = Math.random();
 
-        if (randType > 0.45) {
-          // Obstáculo
+        if (randType > 0.3) {
+          // Obstáculo (Más denso)
           obstacles.push({
             lane: lane,
             x: lanes[lane],
@@ -1744,9 +1761,9 @@
             passed: false,
             iceType: Math.floor(Math.random() * 3)
           });
-        } else if (randType > 0.15) {
+        } else {
           // Monedas
-          let coinCount = Math.floor(Math.random() * 3) + 1;
+          let coinCount = Math.floor(Math.random() * 2) + 1;
           for (let c = 0; c < coinCount; c++) {
             items.push({
               lane: lane,
@@ -1755,15 +1772,20 @@
               radius: 15
             });
           }
-        } else {
-          strawberries.push({
-            lane: lane,
-            x: lanes[lane],
-            y: -60,
-            radius: 20,
-            pulse: 0
-          });
         }
+      }
+
+      // Aparición de la Fresa Rara de Inmunidad exactamente cada 6 segundos (aprox. 360 frames a 60fps)
+      if (strawberrySpawnTimer >= 360) {
+        strawberrySpawnTimer = 0;
+        const shieldLane = Math.floor(Math.random() * 3);
+        strawberries.push({
+          lane: shieldLane,
+          x: lanes[shieldLane],
+          y: -60,
+          radius: 20,
+          pulse: 0
+        });
       }
     }
 
@@ -1822,6 +1844,7 @@
         if (obs.y > canvas.height + 60) obstacles.splice(i, 1);
       }
 
+      // Actualizar Monedas
       for (let i = items.length - 1; i >= 0; i--) {
         let coin = items[i];
         coin.y += currentSpeed;
@@ -1852,6 +1875,7 @@
         if (coin.y > canvas.height + 60) items.splice(i, 1);
       }
 
+      // Actualizar Fresas Raras de Inmunidad (5 Segundos exactos = 300 frames)
       for (let i = strawberries.length - 1; i >= 0; i--) {
         let straw = strawberries[i];
         straw.y += currentSpeed;
@@ -1860,7 +1884,7 @@
         const dist = Math.hypot(straw.x - player.x, straw.y - player.y);
         if (dist < player.width / 2 + straw.radius) {
           playShieldSound();
-          shieldTimer = 300; 
+          shieldTimer = 300; // 5 segundos exactos a 60 FPS
           document.getElementById("game-shield").innerText = `🛡️ 5.0s`;
 
           for(let p=0; p<25; p++) {
@@ -1886,12 +1910,14 @@
     function drawRunner() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Fondo Ultra HD con textura de chocolate profundo
       let bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
       bgGrad.addColorStop(0, '#240a02');
       bgGrad.addColorStop(1, '#0d0200');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Bordes de la pista
       ctx.fillStyle = '#4a2511';
       ctx.fillRect(0, 0, 18, canvas.height);
       ctx.fillRect(canvas.width - 18, 0, 18, canvas.height);
@@ -1902,6 +1928,7 @@
         ctx.fillRect(canvas.width - 13, y, 8, 22);
       }
 
+      // Líneas de carril brillantes
       ctx.strokeStyle = 'rgba(230, 167, 86, 0.45)';
       ctx.lineWidth = 4;
       ctx.setLineDash([22, 18]);
@@ -1913,6 +1940,7 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
+      // Dibujar Obstáculos Ultra HD
       obstacles.forEach(obs => {
         let coneColor = '#e09f3e';
         let coneShadow = '#8c5531';
@@ -1975,6 +2003,7 @@
         ctx.fill();
       });
 
+      // Dibujar Monedas Ultra HD
       items.forEach(coin => {
         let coinGrad = ctx.createRadialGradient(coin.x - 4, coin.y - 4, 2, coin.x, coin.y, coin.radius);
         coinGrad.addColorStop(0, '#ffffff');
@@ -1996,6 +2025,7 @@
         ctx.stroke();
       });
 
+      // 🍓 Dibujar Fresa Rara de Inmunidad (Aparece cada 6s)
       strawberries.forEach(straw => {
         let glowSize = straw.radius + Math.sin(straw.pulse) * 6;
         
@@ -2032,6 +2062,7 @@
         ctx.fillRect(straw.x - 2, straw.y + 7, 2.5, 2.5);
       });
 
+      // Dibujar Jugador Waffle Personificado HD (Con Ojos, Sonrisa y Expresión Viva)
       if (player.invulnerableTimer % 4 < 2) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.beginPath();
@@ -2076,6 +2107,7 @@
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
+        // Ojos tiernos expresivos
         ctx.fillStyle = '#120502';
         ctx.beginPath();
         ctx.arc(player.x - 9, player.y - 5, 3.5, 0, Math.PI * 2);
@@ -2120,6 +2152,7 @@
       drawRunner();
       requestAnimationFrame(runnerGameLoop);
     }
+    /* --- FIN DEL JUEGO RUNNER --- */
 
     function spawnParticle(e) {
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT' || e.target.tagName === 'CANVAS') return;
