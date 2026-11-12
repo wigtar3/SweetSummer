@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sweetsummer - Epic Free Waffle Edition</title>
+  <title>Sweetsummer - Ultimate Fullscreen Edition</title>
   <style>
     * {
       box-sizing: border-box;
@@ -330,27 +330,93 @@
       position: relative;
     }
 
-    #gameCanvas {
+    #game-container-box {
+      position: relative;
       background: #120502;
       border: 4px solid #4a2511;
       border-radius: 16px;
       box-shadow: 0 15px 40px rgba(74, 37, 17, 0.5);
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    #game-container-box:fullscreen,
+    #game-container-box:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0d0200;
+      border: none;
+      border-radius: 0;
+    }
+
+    #game-stage {
+      position: relative;
+      width: 380px;
+      height: 520px;
       max-width: 100%;
+    }
+
+    #game-container-box:fullscreen #game-stage,
+    #game-container-box:-webkit-full-screen #game-stage {
+      height: 94vh;
+      width: calc(94vh * (380 / 520));
+      max-width: 96vw;
+      max-height: calc(96vw * (520 / 380));
+      border: 4px solid #4a2511;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(230, 167, 86, 0.3);
+      overflow: hidden;
+    }
+
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #120502;
+      border-radius: 12px;
       touch-action: none;
+    }
+
+    .game-fullscreen-trigger {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(74, 37, 17, 0.9);
+      color: #fffcf7;
+      border: 1.5px solid #e6a756;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 30;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .game-fullscreen-trigger:hover {
+      background: #4a2511;
+      transform: scale(1.08);
     }
 
     .game-ui-overlay {
       position: absolute;
-      top: 12px;
+      top: 14px;
       left: 12px;
-      right: 12px;
+      right: 52px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       font-weight: 800;
-      font-size: 1.15rem;
+      font-size: 0.92rem;
       color: #fffcf7;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.95);
       pointer-events: none;
+      z-index: 15;
     }
 
     .game-menu-overlay {
@@ -365,22 +431,94 @@
       justify-content: center;
       align-items: center;
       border-radius: 12px;
-      z-index: 10;
+      z-index: 25;
       padding: 1.5rem;
       text-align: center;
     }
 
     .game-menu-overlay h3 {
       color: #fffcf7;
-      font-size: 2.2rem;
+      font-size: 2rem;
       margin-bottom: 0.5rem;
       text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
     }
 
     .game-menu-overlay p {
       color: #fceade;
-      font-size: 1.05rem;
+      font-size: 1rem;
       margin-bottom: 1.2rem;
+    }
+
+    /* Letrero interno estilizado dentro del juego (sin salir de pantalla completa) */
+    .game-notice-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(20, 6, 2, 0.86);
+      backdrop-filter: blur(3px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 28;
+      padding: 1.2rem;
+      animation: popNotice 0.22s ease-out;
+    }
+
+    @keyframes popNotice {
+      0% { transform: scale(0.88); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .game-notice-card {
+      background: #fffcf7;
+      border: 3px solid #e6a756;
+      border-radius: 18px;
+      padding: 1.4rem 1.2rem;
+      width: 92%;
+      max-width: 310px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+    }
+
+    .game-notice-icon {
+      font-size: 2.6rem;
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+
+    .game-notice-card h4 {
+      color: #4a2511;
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-notice-card p {
+      color: #5c331b;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin-bottom: 1.1rem;
+      font-weight: 600;
+    }
+
+    .game-notice-btn {
+      background: #4a2511;
+      color: #fffcf7;
+      border: 2px solid #e6a756;
+      padding: 0.75rem 1.2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .game-notice-btn:hover {
+      background: #7a3e1d;
+      transform: scale(1.03);
     }
 
     .game-controls-hint {
@@ -879,7 +1017,7 @@
       <button class="back-btn" style="margin-top: 1.5rem;" onclick="resetWelcomeScreen()">Volver al Inicio</button>
     </div>
 
-    <!-- SECCIÓN TIENDA DE RECOMPENSAS (CON WAFFLE GRATIS POR 750 MONEDAS) -->
+    <!-- SECCIÓN TIENDA DE RECOMPENSAS -->
     <div id="shop-screen" class="hidden">
       <div class="content-box">
         <h2 style="text-align:center;">🛍️ Tienda de Recompensas</h2>
@@ -1034,22 +1172,43 @@
       <div class="content-box" style="display: flex; flex-direction: column; align-items: center;">
         <h2 style="margin-bottom: 0.3rem;">🎮 Waffle Personificado ULTRA HD: <span id="hud-player-name">Jugador</span></h2>
         <p style="color: #4a2511; font-size: 0.95rem; margin-bottom: 0.8rem; text-align:center;">
-          ¡Atrapa las <span style="color: #ff3366; font-weight:800;">Fresas Raras 🍓</span> (Escudo de 5s cada 6s) y esquiva los obstáculos!
+          ¡Atrapa las <span style="color: #ff3366; font-weight:800;">Fresas Raras 🍓</span> (Escudo de 5s cada 6s sin obstáculos) y esquiva los obstáculos!
         </p>
 
         <div class="game-wrapper">
-          <canvas id="gameCanvas" width="380" height="520"></canvas>
-          
-          <div class="game-ui-overlay">
-            <div>Vidas: <span id="game-lives">❤️❤️</span></div>
-            <div>Escudo (5s): <span id="game-shield">❌</span></div>
-            <div>Monedas: <span id="game-coins">0</span></div>
-          </div>
+          <div id="game-container-box">
+            <div id="game-stage">
+              <button class="game-fullscreen-trigger" onclick="toggleGameFullscreen()" title="Pantalla completa">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+              </button>
+              
+              <canvas id="gameCanvas" width="380" height="520"></canvas>
+              
+              <div class="game-ui-overlay">
+                <div>Vidas: <span id="game-lives">❤️❤️</span></div>
+                <div>Escudo: <span id="game-shield">❌</span></div>
+                <div>Monedas: <span id="game-coins">0</span></div>
+              </div>
 
-          <div id="game-menu" class="game-menu-overlay">
-            <h3 id="game-menu-title">¡MODO RETO MÁXIMO!</h3>
-            <p id="game-menu-desc">Haz clic abajo para iniciar con audio a volumen máximo.</p>
-            <button class="option-btn" style="max-width: 220px; padding: 0.85rem; font-size: 1.15rem;" onclick="startRunnerGame()">🚀 INICIAR PARTIDA</button>
+              <div id="game-menu" class="game-menu-overlay">
+                <h3 id="game-menu-title">¡MODO RETO MÁXIMO!</h3>
+                <p id="game-menu-desc">Haz clic abajo para iniciar con audio a volumen máximo.</p>
+                <button class="option-btn" style="max-width: 220px; padding: 0.85rem; font-size: 1.15rem;" onclick="startRunnerGame()">🚀 INICIAR PARTIDA</button>
+              </div>
+
+              <!-- CONTENEDOR DE AVISO INTERNO (NO SALE DE PANTALLA COMPLETA) -->
+              <div id="game-notice-box" class="game-notice-overlay hidden">
+                <div class="game-notice-card">
+                  <div class="game-notice-icon" id="notice-icon">⚠️</div>
+                  <h4 id="notice-title">¡Aviso del Juego!</h4>
+                  <p id="notice-desc">Texto informativo del evento.</p>
+                  <button class="game-notice-btn" id="notice-action-btn" onclick="dismissGameNotice()">Continuar</button>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
 
@@ -1058,7 +1217,7 @@
           <button class="control-btn" onclick="movePlayerLane(1)">Derecha ▶</button>
         </div>
 
-        <div class="game-controls-hint">💡 ¡Desliza el dedo horizontalmente sobre el juego o usa las flechas para cambiar de carril!</div>
+        <div class="game-controls-hint">💡 ¡Desliza el dedo horizontalmente sobre el juego, usa las flechas o pulsa el cuadrado superior para pantalla completa!</div>
 
         <button class="back-btn" style="margin-top: 1.2rem;" onclick="exitRunnerGame()">Volver a Opciones</button>
       </div>
@@ -1235,6 +1394,7 @@
 
     let playerName = '';
     let totalSavedCoins = 0;
+    let noticeCallback = null;
 
     // --- SISTEMA DE AUDIO POTENCIADO AL MÁXIMO VOLUMEN ---
     let audioCtx = null;
@@ -1457,6 +1617,28 @@
       }
     });
 
+    // --- FUNCIÓN DE PANTALLA COMPLETA PARA EL JUEGO ---
+    function toggleGameFullscreen() {
+      const gameBox = document.getElementById('game-container-box');
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (gameBox.requestFullscreen) {
+          gameBox.requestFullscreen();
+        } else if (gameBox.webkitRequestFullscreen) {
+          gameBox.webkitRequestFullscreen();
+        } else if (gameBox.msRequestFullscreen) {
+          gameBox.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    }
+
     function playClickSound() {
       try {
         initAudio();
@@ -1578,7 +1760,7 @@
       window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
     }
 
-    /* --- LÓGICA DEL JUEGO: MÁS OBSTÁCULOS Y ESCUDO CADA 6 SEGUNDOS (5s DE INMUNIDAD) --- */
+    /* --- LÓGICA DEL JUEGO CON ESCUDO SEGURO Y AVISOS INTERNOS --- */
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
@@ -1589,11 +1771,11 @@
     let score = 0;
     let coins = 0;
     let lives = 2; 
-    let shieldTimer = 0; // 5 segundos = 300 frames a 60fps
+    let shieldTimer = 0; 
     let baseSpeed = 3.2;   
     let currentSpeed = 3.2;
     let spawnCounter = 0;
-    let strawberrySpawnTimer = 0; // Temporizador para asegurar aparición cada 6 segundos (aprox 360 frames)
+    let strawberrySpawnTimer = 0; 
     let roadOffset = 0;
     let nextSpeedLevel = 1000;
 
@@ -1656,6 +1838,24 @@
       player.targetX = lanes[player.lane];
     }
 
+    function showGameNotice(icon, title, desc, btnText, callback) {
+      document.getElementById("notice-icon").innerText = icon;
+      document.getElementById("notice-title").innerText = title;
+      document.getElementById("notice-desc").innerText = desc;
+      document.getElementById("notice-action-btn").innerText = btnText;
+      noticeCallback = callback;
+      document.getElementById("game-notice-box").classList.remove("hidden");
+    }
+
+    function dismissGameNotice() {
+      document.getElementById("game-notice-box").classList.add("hidden");
+      if (noticeCallback) {
+        let cb = noticeCallback;
+        noticeCallback = null;
+        cb();
+      }
+    }
+
     function startRunnerGame() {
       initAudio(); 
       score = 0;
@@ -1709,15 +1909,26 @@
 
       if (lives > 0) {
         document.getElementById("game-lives").innerText = "❤️";
-        obstacles = [];
-        items = [];
-        strawberries = [];
-        player.lane = 1;
-        player.x = lanes[1];
-        player.targetX = lanes[1];
-        player.invulnerableTimer = 90;
-        roadOffset = 0;
-        alert(`¡Perdiste una vida! Carrera reiniciada. Conservas tus ${coins} monedas.`);
+        runnerGameRunning = false; // Pausar juego mientras sale el aviso interno
+        
+        showGameNotice(
+          "💔", 
+          "¡Perdiste una vida!", 
+          `Te queda 1 vida restante. Carrera reiniciada. Conservas tus ${coins} monedas.`, 
+          "Continuar Jugando", 
+          () => {
+            obstacles = [];
+            items = [];
+            strawberries = [];
+            player.lane = 1;
+            player.x = lanes[1];
+            player.targetX = lanes[1];
+            player.invulnerableTimer = 90;
+            roadOffset = 0;
+            runnerGameRunning = true;
+            requestAnimationFrame(runnerGameLoop);
+          }
+        );
       } else {
         document.getElementById("game-lives").innerText = "❌";
         gameOverRunner();
@@ -1731,8 +1942,15 @@
       totalSavedCoins += coins;
       updateCoinsUI();
 
-      alert(`¡Se acabaron tus oportunidades, ${playerName}! Conseguiste ${coins} monedas en total. Redirigiendo a la Tienda de Recompensas...`);
-      showScreen('shop-screen');
+      showGameNotice(
+        "🏁", 
+        "¡Juego Terminado!", 
+        `¡Se acabaron tus oportunidades, ${playerName}! Conseguiste ${coins} monedas en total. Serás dirigido a la Tienda de Recompensas.`, 
+        "Ir a la Tienda", 
+        () => {
+          showScreen('shop-screen');
+        }
+      );
     }
 
     function exitRunnerGame() {
@@ -1745,13 +1963,11 @@
       spawnCounter++;
       strawberrySpawnTimer++;
 
-      // Frecuencia de obstáculos aumentada para mayor desafío
       if (spawnCounter % 38 === 0) {
         const lane = Math.floor(Math.random() * 3);
         const randType = Math.random();
 
         if (randType > 0.3) {
-          // Obstáculo (Más denso)
           obstacles.push({
             lane: lane,
             x: lanes[lane],
@@ -1762,7 +1978,6 @@
             iceType: Math.floor(Math.random() * 3)
           });
         } else {
-          // Monedas
           let coinCount = Math.floor(Math.random() * 2) + 1;
           for (let c = 0; c < coinCount; c++) {
             items.push({
@@ -1775,10 +1990,21 @@
         }
       }
 
-      // Aparición de la Fresa Rara de Inmunidad exactamente cada 6 segundos (aprox. 360 frames a 60fps)
+      // Fresa de Inmunidad exactamente cada 6 segundos (360 frames) SIN obstáculo en su carril
       if (strawberrySpawnTimer >= 360) {
         strawberrySpawnTimer = 0;
-        const shieldLane = Math.floor(Math.random() * 3);
+        
+        // Buscar carriles que NO tengan un obstáculo cercano en este momento
+        let availableLanes = [0, 1, 2].filter(lane => {
+          return !obstacles.some(obs => obs.lane === lane && obs.y < 150 && obs.y > -150);
+        });
+
+        // Si por alta dificultad todos tienen obstáculos, elegimos aleatoriamente cualquiera
+        if (availableLanes.length === 0) {
+          availableLanes = [0, 1, 2];
+        }
+
+        const shieldLane = availableLanes[Math.floor(Math.random() * availableLanes.length)];
         strawberries.push({
           lane: shieldLane,
           x: lanes[shieldLane],
@@ -1823,7 +2049,6 @@
         if (p.life <= 0) particles.splice(i, 1);
       }
 
-      // Actualizar Obstáculos
       for (let i = obstacles.length - 1; i >= 0; i--) {
         let obs = obstacles[i];
         obs.y += currentSpeed;
@@ -1844,7 +2069,6 @@
         if (obs.y > canvas.height + 60) obstacles.splice(i, 1);
       }
 
-      // Actualizar Monedas
       for (let i = items.length - 1; i >= 0; i--) {
         let coin = items[i];
         coin.y += currentSpeed;
@@ -1875,7 +2099,6 @@
         if (coin.y > canvas.height + 60) items.splice(i, 1);
       }
 
-      // Actualizar Fresas Raras de Inmunidad (5 Segundos exactos = 300 frames)
       for (let i = strawberries.length - 1; i >= 0; i--) {
         let straw = strawberries[i];
         straw.y += currentSpeed;
@@ -1884,7 +2107,7 @@
         const dist = Math.hypot(straw.x - player.x, straw.y - player.y);
         if (dist < player.width / 2 + straw.radius) {
           playShieldSound();
-          shieldTimer = 300; // 5 segundos exactos a 60 FPS
+          shieldTimer = 300; // 5 segundos exactos
           document.getElementById("game-shield").innerText = `🛡️ 5.0s`;
 
           for(let p=0; p<25; p++) {
@@ -1910,14 +2133,12 @@
     function drawRunner() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Fondo Ultra HD con textura de chocolate profundo
       let bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
       bgGrad.addColorStop(0, '#240a02');
       bgGrad.addColorStop(1, '#0d0200');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Bordes de la pista
       ctx.fillStyle = '#4a2511';
       ctx.fillRect(0, 0, 18, canvas.height);
       ctx.fillRect(canvas.width - 18, 0, 18, canvas.height);
@@ -1928,7 +2149,6 @@
         ctx.fillRect(canvas.width - 13, y, 8, 22);
       }
 
-      // Líneas de carril brillantes
       ctx.strokeStyle = 'rgba(230, 167, 86, 0.45)';
       ctx.lineWidth = 4;
       ctx.setLineDash([22, 18]);
@@ -1940,7 +2160,6 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Dibujar Obstáculos Ultra HD
       obstacles.forEach(obs => {
         let coneColor = '#e09f3e';
         let coneShadow = '#8c5531';
@@ -2003,7 +2222,6 @@
         ctx.fill();
       });
 
-      // Dibujar Monedas Ultra HD
       items.forEach(coin => {
         let coinGrad = ctx.createRadialGradient(coin.x - 4, coin.y - 4, 2, coin.x, coin.y, coin.radius);
         coinGrad.addColorStop(0, '#ffffff');
@@ -2025,7 +2243,6 @@
         ctx.stroke();
       });
 
-      // 🍓 Dibujar Fresa Rara de Inmunidad (Aparece cada 6s)
       strawberries.forEach(straw => {
         let glowSize = straw.radius + Math.sin(straw.pulse) * 6;
         
@@ -2062,7 +2279,6 @@
         ctx.fillRect(straw.x - 2, straw.y + 7, 2.5, 2.5);
       });
 
-      // Dibujar Jugador Waffle Personificado HD (Con Ojos, Sonrisa y Expresión Viva)
       if (player.invulnerableTimer % 4 < 2) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.beginPath();
@@ -2107,7 +2323,6 @@
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        // Ojos tiernos expresivos
         ctx.fillStyle = '#120502';
         ctx.beginPath();
         ctx.arc(player.x - 9, player.y - 5, 3.5, 0, Math.PI * 2);
